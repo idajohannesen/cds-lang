@@ -1,2 +1,2 @@
-This code trains two classification models on a fake news dataset. It is split up into three notebooks: the first is a logistic regression classifier, the second is a neural network, and the third is a vectorizer. The vectorizer script provides the vectorized data for the two models. 
+This code trains two classification models on a fake news dataset. It is split up into three notebooks: the first is a logistic regression, the second is a neural network, and the third is a vectorizer. The vectorizer script provides a vectorizer to use in both classifier models. 
 Both of the models' classification reports are saved as text files in the 'output' folder. The trained models and the vectorized data can be found in the 'models' folder.
