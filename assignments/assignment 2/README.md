@@ -7,5 +7,3 @@ The neural network classifier prints a classification report, a confusion matrix
 Each of the models' classification reports are saved as text files in the 'output' folder. The trained models and the vectorizer are saved in the 'models' folder. The reports and models are saved as part of their respective scripts.
 
 Setup requires running the setup.sh script
-
-sorry about the frankenstein graph situation going on with the neural network's loss curve and confusion matrix. i have no clue what happened or how to fix it
