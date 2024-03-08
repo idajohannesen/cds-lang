@@ -17,6 +17,9 @@ from sklearn import metrics
 # Visualisation
 import matplotlib.pyplot as plt
 
+# Saving models
+from joblib import dump, load
+
 def vectorizer(): # creates a vectorizer to use in the classifiers
     # creating a vectorizer object with the following parameters:
     vectorizer = TfidfVectorizer(ngram_range = (1,2),     # unigrams and bigrams
@@ -25,7 +28,6 @@ def vectorizer(): # creates a vectorizer to use in the classifiers
                                 min_df = 0.05,           # remove 5% rarest words
                                 max_features = 500)      # keep top 500 features
     # saving the vectorizer for use in the models
-    from joblib import dump, load
     model_folder = os.path.join("..", "models")
     dump(vectorizer, model_folder + "/" + "tfidf_vectorizer.joblib")
 
@@ -45,7 +47,6 @@ def logisticregression(): # creates the logistic regression classifier
                                                         random_state=42) # random state for reproducibility
 
     # loading the saved vectorized data from the models folder
-    from joblib import dump, load
     model_folder = os.path.join("..", "models")
     vectorizer = load(model_folder + "/" + "tfidf_vectorizer.joblib")
 
@@ -89,12 +90,10 @@ def logisticregression(): # creates the logistic regression classifier
     clf.plot_learning_curve(estimator, title, X_vect, y, cv=cv, n_jobs=4)
 
     # saving the model for later use
-    from joblib import dump, load
     model_folder = os.path.join("..", "models")
     dump(classifier, model_folder + "/" + "LR_classifier.joblib")
 
     # loading the saved model to the models folder
-    from joblib import dump, load
     model_folder = os.path.join("..", "models")
     loaded_clf = load(model_folder + "/" + "LR_classifier.joblib")
 
@@ -122,7 +121,6 @@ def neuralnetwork(): # creates the neural network classifier
                                                         random_state=42) # random state for reproducibility
 
     # loading the saved vectorized data from the models folder
-    from joblib import dump, load
     model_folder = os.path.join("..", "models")
     vectorizer = load(model_folder + "/" + "tfidf_vectorizer.joblib")
 
@@ -149,7 +147,7 @@ def neuralnetwork(): # creates the neural network classifier
                                                 y_train,                # the training labels
                                                 cmap=plt.cm.Blues,      # make the colours prettier
                                                 labels=["FAKE", "REAL"])# the labels in the data arranged alphabetically
-    
+
     # get classification report
     classifier_metrics = metrics.classification_report(y_test, y_pred)
     print(classifier_metrics)
@@ -167,12 +165,10 @@ def neuralnetwork(): # creates the neural network classifier
     plt.show()
 
     # saving the model for later use
-    from joblib import dump, load
     model_folder = os.path.join("..", "models")
     dump(classifier, model_folder + "/" + "MLP_classifier.joblib")
 
     # loading the saved model to the models folder
-    from joblib import dump, load
     model_folder = os.path.join("..", "models")
     loaded_clf = load(model_folder + "/" + "MLP_classifier.joblib")
 
@@ -183,3 +179,8 @@ def neuralnetwork(): # creates the neural network classifier
     test_sentence = vectorizer.transform([sentence])
     print(sentence)
     print(loaded_clf.predict(test_sentence))
+
+if __name__ =="__main__":
+    vectorizer()
+    logisticregression()
+    neuralnetwork()
