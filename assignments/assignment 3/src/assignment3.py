@@ -28,8 +28,11 @@ def download_model(): # download a pretrained model
 def find_similar_words(model, args): # finding top 10 most similar words to the input word
     most_similar=model.most_similar(args.input, topn=10)
     words, similarity = zip(*most_similar) # split the output into a word variable and a similarity variable
+    # adding the input word to the list of words being searched for
+    words = list(words)
+    words.append(args.input)
+    words = tuple(words)
     return words
-    print(words)
 
 def select_artist(data, args): # create a list of the chosen artist's lyrics
     search_docs = list(data[data["artist"]==args.artist]["text"])
@@ -44,7 +47,12 @@ def counter(search_docs, words): # count how many times the words appear in the 
 
 def print_results(doc_counter, search_docs, args):
     percent = round(doc_counter/len(search_docs)*100, 1) # calculate percentages and round to a single decimal point
+    results = "{}% of {}'s songs contain words related to {}".format(percent, args.artist, args.input) # print the results
     print(percent, "% of", args.artist, "'s songs contain words related to", args.input) # print the results
+    # saving the results as a .txt file
+    text_file = open(r'../output/results.txt', 'a')
+    text_file.write(results + "\n")
+    text_file.close()
 
 def main():
     args = parser()
