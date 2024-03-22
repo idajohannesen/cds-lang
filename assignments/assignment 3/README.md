@@ -6,7 +6,7 @@ The dataset is a corpus of lyrics from 57,650 English-language songs. It can be 
 The data can be downloaded from here: https://www.kaggle.com/datasets/joebeachcapital/57651-spotify-songs
 
 Reproducing:
-A setup file has been included which can be run first to create a virtual environment with the necessary requirements. The script requires that a csv file of the data is located in the input folder. The code can be run through the command line by inputting "python assignment3.py -i [word input] -a [artist]" from the src folder. The artist must be part of the dataset.
+A setup file has been included which can be run with 'source' to create a virtual environment with the necessary requirements. The script requires that a csv file of the data is located in the input folder. The code can be run through the command line by inputting "python assignment3.py -i [word input] -a [artist]" from the src folder. The artist must be part of the dataset.
 
 Discussion/summary:
 While the model runs successfully, the results may be skewed due to issues with the dataset.
