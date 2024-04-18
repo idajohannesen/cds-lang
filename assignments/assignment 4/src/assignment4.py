@@ -11,7 +11,7 @@ def load_classifier(): # load classifier pipeline from HuggingFace
 
 def load_data(): # navigating into the input folder and reading the dataset as a pandas dataframe
     filename = os.path.join("../input/Game_of_Thrones_Script.csv")
-    data = pd.read_csv(filename)
+    data = pd.read_csv(filename, keep_default_na=False)
     return data
 
 def get_scores(data, classifier): # using a for loop to get an emotion label for every line in the dataset
@@ -39,7 +39,7 @@ def update_dataframe(emotions): # add the emotion labels as an extra column in t
                   True) # allow duplicates
     
     # upload dataframe to output folder
-    outpath = os.path.join("..", "output", folder + ".csv")
+    outpath = os.path.join("..", "output", folder + ".csv") # <- recheck this
     new_df.to_csv(outpath, index=False)
     return new_df
 
@@ -97,7 +97,7 @@ def emotion_list(): # create a list of all 7 emotion labels for the plots
 def plot_seasons(emotion_labels, emotion_freq): # make a plot for every season with the distribution of emotions
     # season 1
     plt.figure(figsize = (16,6))
-    plt.bar(emotions, emotion_freq_s1)
+    plt.hist(emotions, emotion_freq_s1)
     plt.title('Season 1')
     plt.xlabel('Emotion labels')
     plt.ylabel('Frequencies')
@@ -123,7 +123,7 @@ def season_list(): # create list of all seasons for the plots
 def plot_rel_freq(anger_freq, disgust_freq, fear_freq, joy_freq, neutral_freq, sadness_freq, surprise_freq): # make a plot for every emotion with the distribution across seasons
     # anger
     plt.figure(figsize = (16,6))
-    plt.bar(seasons, anger_freq)
+    plt.hist(s1["Emotion_label"], bins = 7)
     plt.title('Anger')
     plt.xlabel('Seasons')
     plt.ylabel('Relative frequency')
