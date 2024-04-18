@@ -15,135 +15,96 @@ def load_data(): # navigating into the input folder and reading the dataset as a
     return data
 
 def get_scores(data, classifier): # using a for loop to get an emotion label for every line in the dataset
+    i = 1
     scores = [] # make an empty list for every emotion label to go into
     for row in data["Sentence"]:
         result = classifier(row)
         scores.append(result)
+        print("finished row " + str(i))
+        i += 1
     return scores
 
-def get_labels(scores): # turn the list of scores into a list with only the emotion label
-    counter = 0 # create a counter to use for the slice in order to iterate over every row
-    emotions = []
+def get_labels(scores): # removing the scores from the list 'scores' and leaving only the label names
+    row = 0 # create a row counter to use for the slice
+    emotions = [] # create list for emotion labels to go in
 
     for emotion in scores:
-        emotion = scores[counter][0]["label"] # select only the label
-        emotions.append(emotion)
-        counter += 1
+        emotion = scores[row][0]["label"] #remove everything but the emotion label using slice
+        emotions.append(emotion) # add to list
+        row += 1 # go to next row
     return emotions
 
-def update_dataframe(emotions): # add the emotion labels as an extra column in the dataframe
+def update_dataframe(emotions, data): # add the emotion labels as an extra column in the dataframe
+    # Using DataFrame.insert() to add a column
     new_df = data # clone the dataframe before adding to it
     new_df.insert(6, #insert as the 6th column
-                  "Emotion_label", #column name
-                  emotions, # data to insert
-                  True) # allow duplicates
-    
-    # upload dataframe to output folder
-    outpath = os.path.join("..", "output", folder + ".csv") # <- recheck this
-    new_df.to_csv(outpath, index=False)
+                "Emotion_label", #column name
+                emotions, # data to insert
+                True) # allow duplicates
+    new_df.to_csv("../output/dataframe.csv", index=False) # upload dataframe to output folder
     return new_df
 
-def seasons(new_df): # split the dataframe into seasons
-    s1 = data[data['Season'] == 'Season 1']
-    s2 = data[data['Season'] == 'Season 2']
-    s3 = data[data['Season'] == 'Season 3']
-    s4 = data[data['Season'] == 'Season 4']
-    s5 = data[data['Season'] == 'Season 5']
-    s6 = data[data['Season'] == 'Season 6']
-    s7 = data[data['Season'] == 'Season 7']
-    s8 = data[data['Season'] == 'Season 8']
-    return s1, s2, s3, s4, s5, s6, s7, s8
+def emotion_distribution_plot(new_df): # create a plot for the distribution of emotion labels for every season
+    counter = 1 # create a counter to update the season labels
+    season_list = ["Season 1", "Season 2", "Season 3", "Season 4", "Season 5", "Season 6", "Season 7", "Season 8"]
+    season_length = []
+    for season in season_list:
+        season_label = season # create a label for every season
+        season_df = new_df[new_df['Season'] == season_label] #split dataframe based on seasons
+        sorted_df = season_df.sort_values('Emotion_label', inplace=False) # sort the dataframe so the plots appear consistently
+        length = len(sorted_df)
+        season_length.append(length) # save the total amount of lines for each season, is used later to plot relative frequencies
+        
+        plt.figure(figsize = (16,6))
+        plt.hist(sorted_df["Emotion_label"], bins = 7) # plot histogram
+        plt.title(season_label)
+        plt.xlabel('Emotion labels')
+        plt.ylabel('Frequencies')
 
-def count_emotions_s1(s1): # count the frequency of each emotion label for season 1
-    # create a counter for each emotion label
-    anger_count_s1 = 0
-    disgust_count_s1 = 0
-    fear_count_s1 = 0
-    joy_count_s1 = 0
-    neutral_count_s1 = 0
-    sadness_count_s1 = 0
-    surprise_count_s1 = 0
-
-    for emotion in s1['Emotion_label']: #add 1 to the counter which corresponds to the emotion
-        if emotion == "anger":
-            anger_count_s1 += 1
-        elif emotion == "disgust":
-            disgust_count_s1 += 1
-        elif emotion == "fear":
-            fear_count_s1 += 1
-        elif emotion == "joy":
-            joy_count_s1 += 1
-        elif emotion == "neutral":
-            neutral_count_s1 += 1
-        elif emotion == "sadness":
-            sadness_count_s1 += 1
-        elif emotion == "surprise":
-            surprise_count_s1 += 1
+        plt.savefig('../output/' + season_label + '.png') # save output
+        plt.show()
+        plt.clf()
+        
+        counter += 1
+        return season_list, season_length
     
-    emotion_freq_s1 = [] # add every counter to a single list
-    emotion_freq.append(anger_count_s1)
-    emotion_freq.append(disgust_count_s1)
-    emotion_freq.append(fear_count_s1)
-    emotion_freq.append(joy_count_s1)
-    emotion_freq.append(neutral_count_s1)
-    emotion_freq.append(sadness_count_s1)
-    emotion_freq.append(surprise_count_s1)
-    return emotion_freq_s1, anger_count_s1, disgust_count_s1, fear_count_s1, joy_count_s1, neutral_count_s1, sadness_count_s1, surprise_count_s1
-    
-def emotion_list(): # create a list of all 7 emotion labels for the plots
-    emotion_labels = ["anger", "disgust", "fear", "joy", "neutral", "sadness", "surprise"]
-    return emotion_labels
+def season_distribution_plot(new_df, season_length): # create a plot for the relative frequency of every emotion label across seasons    
+    emotion_list = ["anger", "disgust", "fear", "joy", "neutral", "sadness", "surprise"]
+    emotion_counter = 0
+    season_list = ["Season 1", "Season 2", "Season 3", "Season 4", "Season 5", "Season 6", "Season 7", "Season 8"]
+    season_counter = 1
+    for emotions in emotion_list:
+        rel_freq_list = [] # save relative frequencies per emotion
+        length_counter = 0 # create counter to loop through the list of every season's length
+        for seasons in season_list:
+            emotion_df = new_df[(new_df["Emotion_label"] == emotions)&(new_df["Season"] == seasons)] #split dataframe based on seasons
+            #emotion_amt = float(len(emotion_df))
+            #total_amt = float(season_length[length_counter])
+            rel_freq = len(emotion_df)/len(new_df[new_df["Season"]==seasons])*100 # calculate relative frequency
+            rel_freq_list.append(rel_freq)
+            length_counter += 1
+        
+        plt.figure(figsize = (16,6))
+        plt.plot(season_list, rel_freq_list) # plot
+        plt.title(emotions)
+        plt.xlabel('Seasons')
+        plt.ylabel('Relative frequencies')
 
-def plot_seasons(emotion_labels, emotion_freq): # make a plot for every season with the distribution of emotions
-    # season 1
-    plt.figure(figsize = (16,6))
-    plt.hist(emotions, emotion_freq_s1)
-    plt.title('Season 1')
-    plt.xlabel('Emotion labels')
-    plt.ylabel('Frequencies')
+        plt.savefig('../output/' + emotions + '.png') # save output
+        plt.show()
+        plt.clf()
+        
+        emotion_counter += 1
+        season_counter += 1
 
-def calculate_anger(anger_count_s1, anger_count_s2, anger_count_s3, anger_count_s4, anger_count_s5, anger_count_s6, anger_count_s7, anger_count_s8): # calculate the relative frequency of anger across seasons
-    anger_total = anger_count_s1 + anger_count_s2 + anger_count_s3 + anger_count_s4 + anger_count_s5 + anger_count_s6 + anger_count_s7 + anger_count_s8
-    rel_freq_anger_s1 = anger_count_s1/anger_total
-    rel_freq_anger_s2 = anger_count_s1/anger_total
-    rel_freq_anger_s3 = anger_count_s1/anger_total
-    rel_freq_anger_s4 = anger_count_s1/anger_total
-    rel_freq_anger_s5 = anger_count_s1/anger_total
-    rel_freq_anger_s6 = anger_count_s1/anger_total
-    rel_freq_anger_s7 = anger_count_s1/anger_total
-    rel_freq_anger_s8 = anger_count_s1/anger_total
-    # create a list with all relative frequencies
-    anger_rel_freq = [rel_freq_anger_s1, rel_freq_anger_s2, rel_freq_anger_s3, rel_freq_anger_s4, rel_freq_anger_s5, rel_freq_anger_s6, rel_freq_anger_s7, rel_freq_anger_s8]
-    return anger_freq
-
-def season_list(): # create list of all seasons for the plots
-    seasons = ["Season 1", "Season 2", "Season 3", "Season 4", "Season 5", "Season 6", "Season 7", "Season 8"]
-    return seasons
-
-def plot_rel_freq(anger_freq, disgust_freq, fear_freq, joy_freq, neutral_freq, sadness_freq, surprise_freq): # make a plot for every emotion with the distribution across seasons
-    # anger
-    plt.figure(figsize = (16,6))
-    plt.hist(s1["Emotion_label"], bins = 7)
-    plt.title('Anger')
-    plt.xlabel('Seasons')
-    plt.ylabel('Relative frequency')
-
-if __name__=="__main__":
+def main():
     classifier = load_classifier()
     data = load_data()
     scores = get_scores(data, classifier)
     emotions = get_labels(scores)
-    new_df = update_dataframe(emotions)
-    s1, s2, s3, s4, s5, s6, s7, s8 = seasons(new_df)
-    emotion_freq_s1, anger_count_s1, disgust_count_s1, fear_count_s1, joy_count_s1, neutral_count_s1, sadness_count_s1, surprise_count_s1 = count_emotions_s1(s1)
-    emotion_labels = emotion_list()
-    anger_rel_freq = calculate_anger(anger_count_s1, anger_count_s2, anger_count_s3, anger_count_s4, anger_count_s5, anger_count_s6, anger_count_s7, anger_count_s8)
-    seasons = season_list()
-    plot_rel_freq(anger_freq, disgust_freq, fear_freq, joy_freq, neutral_freq, sadness_freq, surprise_freq)
+    new_df = update_dataframe(emotions, data)
+    season_length = emotion_distribution_plot(new_df)
+    season_distribution_plot(new_df, season_length)
 
-#- Predict emotion scores for all lines in the data
-#- For each season
-#    - Plot the distribution of all emotion labels in that season
-#    - restructure so u get counts for each season
-#- For each emotion label
-#    - Plot the relative frequency of each emotion across all seasons
+if __name__=="__main__":
+    main()
