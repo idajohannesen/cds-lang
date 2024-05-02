@@ -2,6 +2,7 @@ import spacy
 import pandas as pd
 import os
 import re
+from codecarbon import EmissionsTracker
 
 def load_model(): # load the model using spacy
     nlp = spacy.load("en_core_web_md")
@@ -88,10 +89,30 @@ def extract_features(nlp, main_folder_path, sorted_dir): # creating a for loop g
             df.to_csv(outpath, index=False)
 
 def main():
+    # CodeCarbon tracker
+    outfolder = os.path.join("..", "..", "assignment 5", "input") # set output folder
+    tracker = EmissionsTracker(project_name="assignment 1", # create tracker
+                            experiment_id="linguistic-feature-extraction",
+                            output_dir=outfolder,
+                            output_file="emissions.csv")
+    
+    tracker.start_task("load model")
     nlp = load_model()
+    tracker.stop_task()
+
+    tracker.start_task("create path to dir")
     main_folder_path = create_path()
+    tracker.stop_task()
+
+    tracker.start_task("sort directory")
     sorted_dir = sort_directory(main_folder_path)
+    tracker.stop_task()
+
+    tracker.start_task("extract features")
     extract_features(nlp, main_folder_path, sorted_dir)
+    tracker.stop_task()
+    
+    tracker.stop()
 
 if __name__=="__main__":
     main()

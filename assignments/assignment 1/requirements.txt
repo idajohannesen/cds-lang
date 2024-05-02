@@ -1,2 +1,3 @@
-pandas==2.2.1
+codecarbon==2.3.5
+pandas==2.2.2
 spacy==3.7.4
