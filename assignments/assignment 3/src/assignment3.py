@@ -47,7 +47,7 @@ def load_data():
     """
     filename = os.path.join("input", "Spotify Million Song Dataset_exported.csv")
     data = pd.read_csv(filename)
-    data["artist"] = data["artist"].str.lower()
+    data["artist"] = data["artist"].str.lower() # make all artist names lowercase
     return data
 
 def download_model():
@@ -70,7 +70,7 @@ def find_similar_words(model, args):
     Returns:
         words: list of words being searched for, based on input word
     """
-    most_similar=model.most_similar(args.input, topn=10)
+    most_similar=model.most_similar(args.input.lower(), topn=10) # make input word lowercase and find most similar words
     words, similarity = zip(*most_similar) # split the output into a word variable and a similarity variable
     # adding the input word to the list of words being searched for
     words = list(words)

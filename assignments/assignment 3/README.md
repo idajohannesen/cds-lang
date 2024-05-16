@@ -13,7 +13,7 @@ The data can be downloaded from here: https://www.kaggle.com/datasets/joebeachca
 A setup file has been included which creates a virtual environment with the necessary requirements, as well as a ```run.sh``` file which activates the virtual environment and runs the script. The script requires that the data is located in the ```input``` folder with the structure mentioned above. 
 
 Start by running the setup file by inputting ```bash setup.sh``` in the terminal. 
-The code can then be run through the terminal by inputting ```bash run.sh```. Make sure to replace the two brackets with an input word and an artist in this file before running. The artist must be part of the dataset.
+The code can then be run through the terminal by inputting ```bash run.sh```. By default, the code searches for the word ```sadness``` and the artist ```Adele```, but this can be changed in the ```run.sh``` script. The artist must be part of the dataset. Capitalizing any letter of the input word and artist name does not affect the final results.
 Both of these lines should be executed from the ```assignment 3``` folder.
 
 The code has been written and tested on a Windows laptop and may not work correctly on other operating systems.
@@ -21,6 +21,6 @@ The code has been written and tested on a Windows laptop and may not work correc
 # Discussion/summary:
 While the model runs successfully, the results may be skewed due to issues with the dataset.
 For example, the dataset is not properly cleaned. One can find lyrics which contain non-lyrics such as "(verse 1)" or lyrics in other languages than English, which the model won't work for.
-Additionally, the dataset does not always contain the full discography of every artist, and the results may therefore not represent the actual discography for the artist. The sample size of the included discography can also affect the accuracy.
+Additionally, the dataset does not always contain the full discography of every artist, and the results may therefore not represent the actual discography for the artist. The limited sample size of the included discography can also affect the accuracy of the calculated score.
 
-The list of most similar words also tend to include antonyms, which is likely not what the user wants to count when selecting their word. The quality of the list of similar words can therefore affect the result.
+The list of most similar words also tend to include antonyms, which is likely not what the user wants to count when selecting their word. The quality of the list of similar words can therefore affect the final output and give a misleading result. The results should therefore be taken with a grain of salt and are likely more accurate to interpret as how often the word appears as a broad topic, which both includes synonyms and antonyms for the input word.
