@@ -52,13 +52,10 @@ def get_scores(data, classifier):
     Returns:
         scores: list of emotion labels + likeliness scores
     """
-    i = 1
     scores = [] # make an empty list for every emotion label to go into
     for row in data["Sentence"]:
         result = classifier(row)
         scores.append(result)
-        print("finished row " + str(i))
-        i += 1
     return scores
 
 def get_labels(scores):
