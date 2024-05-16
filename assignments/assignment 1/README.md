@@ -6,7 +6,7 @@ This code loops through the texts of a corpus and extracts linguistic features f
 This code uses CodeCarbon to track CO₂ emissions. The results are discussed in Assignment 5.
 
 # Data:
-The dataset is the Uppsala Student English corpus, which consists of 1,489 English essays written by Swedish university students. It should be inserted in the ```input``` folder as a folder named ```USEcorpus```, with the text files found in subfolders a1, a2, etc.
+The dataset is the Uppsala Student English corpus, which consists of 1,489 English essays written by Swedish university students. It should be inserted in the ```input``` folder as a folder named ```USEcorpus```, with the text files found in subfolders a1, a2, etc. Make sure that there is no readme file present in the ```USEcorpus``` folder.
 The data can be downloaded from here: https://ota.bodleian.ox.ac.uk/repository/xmlui/handle/20.500.12024/2457
 
 # Reproducing:
