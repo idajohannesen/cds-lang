@@ -1,7 +1,7 @@
 # Assignment 3
 
 # Short description:
-This code calculates how many songs from a given artist include words related to an input word. It takes both the artist and input word as arguments which can be decided by the user when running the code. Results are added to a .txt file in the ```output``` folder.
+This code calculates how many songs from a given artist include words related to an input word. The result is presented as a percentage. It takes both the artist and input word as arguments which can be decided by the user when running the code. Results are added to a .txt file in the ```output``` folder.
 
 This code uses CodeCarbon to track CO₂ emissions. The results are discussed in Assignment 5.
 
@@ -19,8 +19,17 @@ Both of these lines should be executed from the ```assignment 3``` folder.
 The code has been written and tested on a Windows laptop and may not work correctly on other operating systems.
 
 # Discussion/summary:
-While the model runs successfully, the results may be skewed due to issues with the dataset.
-For example, the dataset is not properly cleaned. One can find lyrics which contain non-lyrics such as "(verse 1)" or lyrics in other languages than English, which the model won't work for.
-Additionally, the dataset does not always contain the full discography of every artist, and the results may therefore not represent the actual discography for the artist. The limited sample size of the included discography can also affect the accuracy of the calculated score.
+The model has been run with four examples: ABBA and joy, Cher and love, and Adele with both sadness and love. The results, which can also be found in the ```results.txt``` file in the ```output``` folder, were:
+42.5% of ABBA's songs contain words related to joy
+96.3% of Cher's songs contain words related to love
+5.6% of Adele's songs contain words related to sadness
+100.0% of Adele's songs contain words related to love
 
-The list of most similar words also tend to include antonyms, which is likely not what the user wants to count when selecting their word. The quality of the list of similar words can therefore affect the final output and give a misleading result. The results should therefore be taken with a grain of salt and are likely more accurate to interpret as how often the word appears as a broad topic, which both includes synonyms and antonyms for the input word.
+From these results, although they are very limited and nothing conclusive can be determined without many more runs, we can see that love and joy is present in all three artists' songs. Only 5.6% of Adele's songs featured sadness as part of the lyrics, while all of her songs appear to be about love in some capacity. This could suggest that emotions like joy or being in love are common topics in music by these three artists. 
+The script can be used to perform analyses like the one above, for example by comparing an input word across many different artists, or various different input words for a single artist's songs.
+
+While the model runs successfully, the results may be skewed due to issues with the dataset.
+For example, the dataset is not properly cleaned. One can find lyrics which contain non-lyrics such as "(verse 1)" or lyrics in other languages than English, which the model will not work for.
+Additionally, the dataset does not always contain the full discography of every artist, and the lyrics in the dataset may therefore not represent the full discography for the artist. The limited sample size of the included discography can also affect the accuracy of the calculated score as many of the artists only have a few songs included in the dataset. Smaller datasets tend to be less accurate in the end as only a few errors will massively skew the final result. This is especially noticable with the example run which outputted that "100.0% of Adele's songs contain words related to love." Adele only has 12 songs in the dataset, which are not likely to be entirely accurate of her entire discography. This result does not guarantee that every single Adele song is about love. The accuracy is generally better for artists with more songs present in the dataset.
+
+The list of most similar words also tend to include antonyms, which is likely not what the user wants to count when selecting their word. The quality of the list of similar words can therefore affect the final output and give a misleading result. The results should therefore be taken with a grain of salt and are likely more accurate to interpret as how often the word appears as a broad topic, which both includes synonyms and antonyms for the input word. For example, a word like 'joy' may also include 'sadness' as a similar word, which means that the final result is a count of how many times joy is discussed as well as the absence of it. This may ultimately not be what the user expects from the code but it is important to consider when interpreting results. 

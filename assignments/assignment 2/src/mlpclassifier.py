@@ -109,7 +109,7 @@ def fit_classifier_to_data(X_train_feats, y_train):
     Returns:
         classifier: neural network classifier
     """
-    classifier = MLPClassifier(activation = "logistic",
+    classifier = MLPClassifier(activation = "relu",
                             hidden_layer_sizes = (20,), # 20 neurons in our hidden layer
                             max_iter=1000, # 1000 epochs
                             random_state = 42) # random state for reproducibility

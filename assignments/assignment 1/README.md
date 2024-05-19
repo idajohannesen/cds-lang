@@ -1,7 +1,7 @@
 # Assignment 1
 
 # Short description:
-This code loops through the texts of a corpus and extracts linguistic features from them. It extracts the relative frequency of nouns, verbs, adjectives, and adverbs per 10,000 words and the number of unique locations, persons, and organisations mentioned. These features have been gathered in a pandas dataframe for every subfolder and can be found in the ```output``` folder as .csv files.
+This code loops through the texts of a corpus and extracts linguistic features from them. It extracts the relative frequency of nouns, verbs, adjectives, and adverbs per 10,000 words and the number of unique locations, persons, and organisations mentioned. These features have been gathered in a pandas dataframe for every subfolder and can be found in the ```output``` folder as csv files. Here, the average frequency of the linguistic features can also be found for each subfolder as both a csv files of the exact numbers and a graph offering easy visualization and comparison. Both of these are in the subfolder titled ```average```.
 
 This code uses CodeCarbon to track CO₂ emissions. The results are discussed in Assignment 5.
 
