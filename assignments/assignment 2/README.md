@@ -10,8 +10,9 @@ The neural network classifier prints a classification report, a confusion matrix
 This code uses CodeCarbon to track CO₂ emissions. The results are discussed in Assignment 5.
 
 # Data:
-The dataset is a corpus of real and fake newsarticles. It can be inserted as a csv file in the ```input``` folder. 
+The dataset is a corpus of articles containing real and fake news.
 The data can be downloaded from here: https://www.kaggle.com/datasets/jillanisofttech/fake-or-real-news
+Download the data from the link and unzip it. Inside the unzipped folder, there is a csv file titled ```fake_or_real_news.csv```. Place this csv file in the ```input``` folder.
 
 # Reproducing:
 A setup file has been included which creates a virtual environment with the necessary requirements, as well as a ```run.sh``` file which activates the virtual environment and runs the script. The script requires that the data is located in the ```input``` folder with the structure mentioned above. 

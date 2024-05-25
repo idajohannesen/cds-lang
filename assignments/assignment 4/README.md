@@ -6,8 +6,9 @@ This code goes through the script of all 8 seasons of Game of Thrones and assign
 This code uses CodeCarbon to track CO₂ emissions. The results are discussed in Assignment 5.
 
 # Data:
-The dataset consists of scripts from all seasons of the TV show Game of Thrones, split into lines. It can be inserted as a .csv file in the ```input``` folder.
+The dataset consists of the script for all 8 seasons of the TV show Game of Thrones, split into lines.
 The data can be downloaded from here: https://www.kaggle.com/datasets/albenft/game-of-thrones-script-all-seasons?select=Game_of_Thrones_Script.csv
+Download the data from the link and unzip it. Inside the unzipped folder, there is a csv file titled ```Game_of_Thrones_Script.csv```. Place this csv file in the ```input``` folder.
 
 # Reproducing:
 A setup file has been included which creates a virtual environment with the necessary requirements, as well as a ```run.sh``` file which activates the virtual environment and runs the script. The script requires that the data is located in the ```input``` folder with the structure mentioned above. 
